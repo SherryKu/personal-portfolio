@@ -1,4 +1,6 @@
-const CHINESE = /([⺀-⿿　-〿㐀-䶿一-鿿豈-﫿]+)/;
+// A run of Chinese characters, including a middle dot between them, as in 水云间·月.
+const CHINESE =
+  /([⺀-⿿　-〿㐀-䶿一-鿿豈-﫿]+(?:·[⺀-⿿　-〿㐀-䶿一-鿿豈-﫿]+)*)/;
 
 /**
  * Renders a sentence that may contain Chinese titles, marking those parts so

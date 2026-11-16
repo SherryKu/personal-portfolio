@@ -301,7 +301,7 @@ export const musician = {
       {
         year: 2026,
         when: "February",
-        text: "Invited to perform Blue and White Porcelain (青花瓷) and Edelweiss (雪绒花) at the Spring Festival celebration hosted by Princeton University.",
+        text: "Invited to perform at Princeton University’s Spring Festival celebration, collaborating with music professor Vince Di Mura on Blue and White Porcelain (青花瓷), Edelweiss (雪绒花), and Juebie Shu (诀别书), exploring traditional Chinese instrumentation across musical styles.",
       },
       {
         year: 2026,
@@ -320,39 +320,46 @@ export const musician = {
       },
       {
         year: 2025,
-        text: "Organized and led a group to perform at the “Mid-Autumn Day in Poetry” event at the United Nations Headquarters, hosted by the China–US Culture and Arts Foundation.",
+        when: "October",
+        text: "Organized and led an ensemble performance of Water-Cloud Moon (水云间·月) at Mid-Autumn Day in Poetry at the United Nations Headquarters, hosted by the China–US Culture and Arts Foundation.",
       },
       {
         year: 2025,
-        text: "Performed at the New York Chinese Orchestra’s 65th Anniversary Fall Concert at Tribeca Theater.",
+        when: "October",
+        text: "Performed with the Chinese Music Ensemble of New York at its 65th Anniversary Fall Concert, In Praise of the Golden Years (不负华年), at Tribeca Theater, New York.",
       },
       {
         year: 2025,
-        text: "Invited by the Chinese Consulate General in New York to direct and lead the team in performances of “Water Dragon Chant” and “Water-Cloud Moon” at the National Day Reception.",
+        when: "September",
+        text: "Organized and led ensemble performances of Water Dragon Chant (水龙吟) and Water-Cloud Moon (水云间·月) at the National Day Celebration hosted by the Consulate General of China in New York.",
       },
       {
         year: 2025,
-        text: "Performed with the Celadon Stars Orchestra at the 6th Big Apple Music Festival.",
+        when: "July",
+        text: "Performed with the Celadon Stars World Orchestra at the 6th Big Apple Music Festival at Carnegie Hall, New York.",
       },
       {
         year: 2025,
-        text: "Featured soloist for the 80th-anniversary Yellow River Cantata: performed the pipa classic Ambush on Ten Sides and led Movement III, “The Yellow River’s Waters Come Down from Heaven.”",
+        when: "April",
+        text: "Featured pipa soloist at the 80th Anniversary Concert of the Yellow River Cantata at Lincoln Center, performing Ambush on Ten Sides (十面埋伏) and leading Movement III, The Yellow River’s Waters Come Down from Heaven (黄河之水天上来).",
       },
       {
         year: 2024,
+        when: "April",
         text: "Invited as a featured guest artist at a cultural exchange event co-hosted by the Consulate General of China in New York and NYU’s Institute of International Education, performing Han Dan (菡萏).",
       },
       {
         year: 2024,
-        text: "Directed and performed in Han Dan (菡萏), a Chinese fusion piece combining traditional music and contemporary dance.",
+        when: "April",
+        text: "Directed and performed Han Dan (菡萏), a Chinese fusion production combining traditional music and contemporary dance, at NYU GALA.",
       },
       {
         year: 2022,
-        text: "Collaborated with band Desert Island on a modern rock adaptation of Goodbye Jack (再见杰克).",
+        text: "Collaborated with the band Desert Island on a contemporary rock adaptation of Goodbye Jack (再见杰克) at NYU GALA.",
       },
       {
         year: 2018,
-        text: "Invited as a featured performer in the Sheng Man Hua Biao (声漫华表) concert with the Chongqing National Orchestra.",
+        text: "Performed with the Chongqing Chinese Orchestra in the Sheng Man Hua Biao (声漫华表) concert.",
       },
     ] as Performance[],
   },

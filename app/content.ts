@@ -119,7 +119,7 @@ export type Project = {
    * The link is shown only once `href` is filled in,
    * so nothing leads to a case study that isn't written yet.
    */
-  link: { label: string; href?: string };
+  link?: { label: string; href?: string };
 };
 
 export const projects: Project[] = [
@@ -205,7 +205,7 @@ export const projects: Project[] = [
     ],
     disciplines: ["Full-Stack Engineering", "AI Workflows", "Data Visualization"],
     metric: { value: "3,000+", label: "curated records" },
-    link: { label: "Explore product preview" },
+    showScreenshots: false,
   },
 ];
 

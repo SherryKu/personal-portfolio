@@ -1,0 +1,14 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "portfolio",
+      "runtimeExecutable": "/bin/sh",
+      "runtimeArgs": [
+        "-c",
+        "for n in /opt/homebrew/bin/node /usr/local/bin/node \"$HOME/Library/Application Support/Codex/artifact-sessions/runtime-generations\"/*/runtime/bin/node; do [ -x \"$n\" ] && exec \"$n\" node_modules/next/dist/bin/next dev --port 3000; done; echo 'No Node.js found. Install Node.js 22 or newer to run this project.' >&2; exit 127"
+      ],
+      "port": 3000
+    }
+  ]
+}

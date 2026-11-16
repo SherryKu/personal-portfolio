@@ -30,17 +30,16 @@ On the landing page it is placed so that the point where its lines gather sits e
 
 ## Adding screenshots (engineer page)
 
-Each project looks for images in its own folder under `public/work/`:
+Projects with screenshot previews look for images in their own folders under `public/work/`.
 
 | Project                 | Folder                            |
 | ----------------------- | --------------------------------- |
 | Retailer Pulse Platform | `public/work/retailer-pulse/`     |
-| Dealer-Facing AI Agent  | `public/work/ai-agent/`           |
-| Workbook & Analytics    | `public/work/workbook-analytics/` |
+| C120 Oil Pump Viewer    | `public/work/c120-viewer/`       |
 
-Name the files `web` (a desktop screenshot) and `mobile` (a phone screenshot). PNG, JPG and WebP all work, for example `web.png` and `mobile.jpg`. Either one is optional.
+Name the files `web.png` (a desktop screenshot) and `mobile.png` (a phone screenshot). To add more desktop views, use `web-2.png`, `web-3.png`, and so on. PNG, JPG and WebP all work. Either type is optional.
 
-- With both, the phone overlaps the corner of the desktop screenshot.
+- With both, the phone overlaps the corner of the desktop screenshot. Multiple desktop screenshots advance every five seconds with a left-to-right slide. Use the arrows inside the frame to browse, or Pause below the frame to stop autoplay. Reduced-motion preferences turn off autoplay and the slide animation.
 - With one, it is shown alone.
 - With none, the project is presented as text, so the published site never shows an empty frame. While developing you'll see dashed placeholders marking where the images go.
 

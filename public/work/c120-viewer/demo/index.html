@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>C120 oil pump · 3D view</title>
+<style>
+  html, body { height: 100%; margin: 0; background: #fff; }
+  body { font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; }
+  hn-c120-pump { height: 100%; min-height: 0; aspect-ratio: auto; --hn-radius: 0px; }
+  hn-c120-pump::part(root) { border: 0; }
+</style>
+</head>
+<body>
+<!--
+  Stand-alone page of the C120 oil pump 3D viewer. Use it directly or in an iframe:
+    <iframe src="/3d/c120/index.html?mode=mesh&lang=zh" title="C120 oil pump 3D view"
+            style="width:100%;aspect-ratio:16/10;border:0" loading="lazy" allow="fullscreen"></iframe>
+  Every URL query parameter with the name of an attribute is copied onto the element:
+  mode, explode, speed, paused, phase, direction, view, lang, show-part-no, poster, asset-base, show-fps, debug.
+-->
+<hn-c120-pump></hn-c120-pump>
+<script>
+  (function () {
+    var el = document.querySelector('hn-c120-pump');
+    var params = new URLSearchParams(location.search);
+    var names = ['mode', 'explode', 'speed', 'paused', 'phase', 'direction', 'view', 'lang', 'show-part-no', 'poster', 'asset-base', 'show-fps', 'debug'];
+    names.forEach(function (name) {
+      if (params.has(name)) el.setAttribute(name, params.get(name));
+    });
+    if (params.has('lang')) document.documentElement.lang = params.get('lang');
+    if (/^zh/i.test(document.documentElement.lang)) document.title = 'C120 机油泵 · 三维展示';
+  })();
+</script>
+<script type="module" src="./hn-c120-pump.esm.js"></script>
+</body>
+</html>

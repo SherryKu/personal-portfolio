@@ -1,25 +1,24 @@
+import type { ReactNode } from "react";
 import type { Project } from "../content";
 import { findProjectShots, type Shot } from "../lib/assets";
+import { href } from "../lib/paths";
 import { Arrow } from "./Arrow";
+import { WebScreenshotReel } from "./WebScreenshotReel";
 
 const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value));
 
-/**
- * A screenshot in its frame. The frame follows the image's own shape, within
- * limits: very tall captures are trimmed from the bottom rather than squeezed.
- */
-function Plate({ shot, kind, title }: { shot: Shot; kind: "web" | "mobile"; title: string }) {
+/** A phone screenshot in its frame, with very tall captures trimmed at the bottom. */
+function MobilePlate({ shot, title }: { shot: Shot; title: string }) {
   const natural = shot.width && shot.height ? shot.width / shot.height : null;
-  const aspect =
-    kind === "web" ? Math.max(natural ?? 16 / 10, 4 / 3) : clamp(natural ?? 9 / 19.5, 9 / 21, 3 / 4);
+  const aspect = clamp(natural ?? 9 / 19.5, 9 / 21, 3 / 4);
 
   return (
-    <div className={`plate plate--${kind}`} style={{ aspectRatio: aspect.toFixed(4) }}>
+    <div className="plate plate--mobile" style={{ aspectRatio: aspect.toFixed(4) }}>
       {/* Plain <img>: the site is exported as static files, so there is no image server to optimise through. */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={shot.src}
-        alt={`${title}, ${kind === "web" ? "desktop" : "mobile"} screenshot`}
+        alt={`${title}, mobile screenshot`}
         width={shot.width}
         height={shot.height}
         loading="lazy"
@@ -43,14 +42,17 @@ function Slot({ slug, kind }: { slug: string; kind: "web" | "mobile" }) {
   );
 }
 
-export function ProjectEntry({ project }: { project: Project }) {
-  const { web, mobile } = findProjectShots(project.slug);
-  const hasShots = Boolean(web || mobile);
-  const showSlots = !hasShots && process.env.NODE_ENV === "development";
-  const hasFigure = hasShots || showSlots;
+export function ProjectEntry({ project, preview }: { project: Project; preview?: ReactNode }) {
+  const showScreenshots = project.showScreenshots !== false;
+  const { web, mobile } = showScreenshots ? findProjectShots(project.slug) : { web: [], mobile: null };
+  const hasShots = web.length > 0 || Boolean(mobile);
+  const showSlots = showScreenshots && !hasShots && !preview && process.env.NODE_ENV === "development";
+  const hasFigure = hasShots || Boolean(preview) || showSlots;
 
   const layout = !hasFigure ? "text" : project.featured ? "featured" : "split";
-  const arrangement = showSlots || (web && mobile) ? "pair" : web ? "web" : "mobile";
+  let arrangement: "pair" | "web" | "mobile" = "mobile";
+  if (showSlots || (web.length > 0 && mobile)) arrangement = "pair";
+  else if (web.length > 0) arrangement = "web";
   const titleId = `${project.slug}-title`;
 
   return (
@@ -74,11 +76,15 @@ export function ProjectEntry({ project }: { project: Project }) {
         )}
       </div>
 
-      {hasFigure && (
+      {preview ? <div className="figure">{preview}</div> : hasFigure && (
         <figure className={`figure figure--${arrangement}`}>
-          {web ? <Plate shot={web} kind="web" title={project.title} /> : showSlots && <Slot slug={project.slug} kind="web" />}
+          {web.length > 0 ? (
+            <WebScreenshotReel shots={web} title={project.title} />
+          ) : (
+            showSlots && <Slot slug={project.slug} kind="web" />
+          )}
           {mobile ? (
-            <Plate shot={mobile} kind="mobile" title={project.title} />
+            <MobilePlate shot={mobile} title={project.title} />
           ) : (
             showSlots && <Slot slug={project.slug} kind="mobile" />
           )}
@@ -93,7 +99,22 @@ export function ProjectEntry({ project }: { project: Project }) {
         <div className="project__copy">
           <h4 className="label">My role</h4>
           <p>{project.role}</p>
+          {project.highlights && (
+            <ul className="project__highlights">
+              {project.highlights.map((highlight) => <li key={highlight}>{highlight}</li>)}
+            </ul>
+          )}
         </div>
+        {project.sections && (
+          <div className="project__sections">
+            {project.sections.map(({ heading, paragraphs }) => (
+              <div className="project__copy" key={heading}>
+                <h4 className="label">{heading}</h4>
+                {paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+              </div>
+            ))}
+          </div>
+        )}
         <div className="project__scope">
           <h4 className="label">Scope</h4>
           <ul>
@@ -103,7 +124,7 @@ export function ProjectEntry({ project }: { project: Project }) {
           </ul>
         </div>
         {project.link.href && (
-          <a className="link project__link" href={project.link.href}>
+          <a className="link project__link" href={project.link.href.startsWith("/") ? href(project.link.href) : project.link.href}>
             {project.link.label}
             <Arrow direction="right" />
           </a>

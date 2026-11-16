@@ -644,6 +644,21 @@ a:hover .arrow--up {
   text-wrap: pretty;
 }
 
+.project__sections {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr));
+  gap: 1.5rem var(--gutter);
+}
+
+.project--text .project__sections {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.project__sections .project__copy p + p {
+  margin-top: 0.65rem;
+}
+
 /* Disciplines: one per line by default, set in a row where there is room. */
 .project__scope li {
   padding-block: 0.15rem;
@@ -752,7 +767,7 @@ a:hover .arrow--up {
   grid-template-columns: repeat(12, minmax(0, 1fr));
 }
 
-.project--featured .project__copy {
+.project--featured .project__body > .project__copy {
   grid-column: span 4;
 }
 
@@ -774,6 +789,16 @@ a:hover .arrow--up {
   position: relative;
 }
 
+.web-reel {
+  display: grid;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.figure--pair .web-reel {
+  width: 88%;
+}
+
 .plate {
   position: relative;
   overflow: hidden;
@@ -790,6 +815,113 @@ a:hover .arrow--up {
   height: 100%;
   object-fit: cover;
   object-position: top center;
+}
+
+.web-reel__viewport {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.web-reel__slide {
+  position: absolute;
+  inset: 0;
+  visibility: hidden;
+}
+
+.web-reel__slide.is-initial,
+.web-reel__slide.is-entering {
+  z-index: 1;
+  visibility: visible;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .web-reel__slide.is-entering {
+    animation: screenshot-enter 550ms ease-in-out both;
+  }
+
+  .web-reel__slide.is-leaving {
+    visibility: visible;
+    animation: screenshot-exit 550ms ease-in-out both;
+  }
+}
+
+@keyframes screenshot-enter {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}
+
+@keyframes screenshot-exit {
+  from { transform: translateX(0); }
+  to { transform: translateX(100%); }
+}
+
+.web-reel__controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.4rem 1rem;
+}
+
+.web-reel__arrow {
+  position: absolute;
+  z-index: 2;
+  inset-block-start: 50%;
+  translate: 0 -50%;
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 1px solid rgb(255 255 255 / 0.5);
+  border-radius: 50%;
+  background: rgb(24 23 22 / 0.76);
+  color: white;
+  cursor: pointer;
+}
+
+.web-reel__arrow::after {
+  content: "";
+  width: 0.55rem;
+  height: 0.55rem;
+  border-top: 2px solid currentColor;
+  border-right: 2px solid currentColor;
+  rotate: 45deg;
+  translate: -1px 0;
+}
+
+.web-reel__arrow--previous {
+  inset-inline-start: 0.5rem;
+}
+
+.web-reel__arrow--previous::after {
+  rotate: -135deg;
+  translate: 1px 0;
+}
+
+.web-reel__arrow--next {
+  inset-inline-end: 0.5rem;
+}
+
+.web-reel__arrow:hover {
+  background: #181716;
+}
+
+.web-reel__arrow:focus-visible {
+  outline: 2px solid white;
+  outline-offset: -5px;
+}
+
+.web-reel__controls .link {
+  border: 0;
+  color: var(--ink-soft);
+  font: inherit;
+  cursor: pointer;
+}
+
+.web-reel__controls .link:hover {
+  color: var(--accent);
 }
 
 .plate--mobile {
@@ -1257,7 +1389,7 @@ a:hover .arrow--up {
     grid-column: 1 / -1;
   }
 
-  .project--featured .project__copy {
+  .project--featured .project__body > .project__copy {
     grid-column: span 6;
   }
 
@@ -1298,7 +1430,7 @@ a:hover .arrow--up {
     grid-template-columns: minmax(0, 1fr);
   }
 
-  .project--featured .project__copy {
+  .project--featured .project__body > .project__copy {
     grid-column: 1 / -1;
   }
 
@@ -2311,4 +2443,13 @@ html[data-arrival="transition"] .strings--intro path {
     width: 168%;
     transform: translateY(-50%);
   }
+}
+
+.project__highlights {
+  display: grid;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+  padding-inline-start: 1.1rem;
+  list-style: disc;
+  color: var(--ink-soft);
 }

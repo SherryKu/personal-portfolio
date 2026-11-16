@@ -108,6 +108,9 @@ export type Project = {
   overview: string;
   role: string;
   disciplines: string[];
+  highlights?: string[];
+  sections?: { heading: string; paragraphs: string[] }[];
+  showScreenshots?: boolean;
   status?: string;
   metric?: { value: string; label: string };
   /** The first project is given the widest layout. */
@@ -124,10 +127,24 @@ export const projects: Project[] = [
     slug: "retailer-pulse",
     index: "01",
     title: "Retailer Pulse Platform",
-    thesis: "Making retail operations easier to navigate.",
+    thesis: "Giving dealers a clearer view of what they earn.",
     overview:
-      "A connected web and mobile platform serving 450+ retail stores—bringing performance metrics, financials, documents, and support into everyday workflows.",
-    role: "I owned the frontend experience from requirements and product design through implementation and delivery, using AI coding tools to build the web and mobile applications.",
+      "A web and mobile portal serving 450+ retail stores, with access to performance metrics, financials, documents, and support.",
+    role: "I led the frontend work from requirements and product design through implementation and delivery. My work focused on self-service financial reporting for dealers and monthly commission workflows for revenue operations.",
+    sections: [
+      {
+        heading: "Finance module",
+        paragraphs: [
+          "Shipped P&L and commission overview and detail pages. Replacing mock data with the live commission API gave dealers direct access to their earnings and cut back-and-forth on commission inquiries by 63%.",
+        ],
+      },
+      {
+        heading: "Workbook sync",
+        paragraphs: [
+          "Designed a connect, sync, and export workflow with labeled columns, normalized API responses, and a history of every sync job. Revenue operations can load and trace monthly commission workbooks, cutting manual spreadsheet prep from four hours to five minutes per month.",
+        ],
+      },
+    ],
     disciplines: ["Product Design", "Frontend Engineering", "Web & Mobile"],
     metric: { value: "450+", label: "retail stores served" },
     featured: true,
@@ -137,24 +154,58 @@ export const projects: Project[] = [
     slug: "ai-agent",
     index: "02",
     title: "Dealer-Facing AI Agent",
-    thesis: "Making complex workflows easier to act on.",
+    thesis: "Self-service answers from portal data.",
     overview:
-      "An AI agent initiative exploring how dealers can access information and complete operational tasks through conversation.",
-    role: "I’m leading the design of the agentic architecture and product experience, defining how user intent connects to business workflows, tools, and appropriate permissions.",
-    disciplines: ["Agent Architecture", "Product Design"],
+      "Dealers can ask about commissions, P&L, and activations in plain language.",
+    role: "I lead the agent architecture, product design, and evaluation.",
+    sections: [
+      {
+        heading: "Agent capabilities",
+        paragraphs: [
+          "The agent uses existing APIs, GraphQL queries, and reports to explain earnings changes. It hands unresolved questions to support with a pre-filled ticket and chat history. The goal is 75% fewer support tickets.",
+        ],
+      },
+      {
+        heading: "Security and trust",
+        paragraphs: [
+          "Tools enforce tenant and role permissions, filter hidden audit fields, and require confirmation before writes. Answers cite source records.",
+        ],
+      },
+    ],
+    disciplines: ["Agent Architecture", "Product Design", "AI Evaluation"],
+    showScreenshots: false,
     status: "In development",
     link: { label: "Explore the approach" },
   },
   {
-    slug: "workbook-analytics",
+    slug: "c120-viewer",
     index: "03",
-    title: "Workbook & Analytics",
-    thesis: "From operational data to useful perspectives.",
+    title: "C120 Oil Pump Viewer",
+    thesis: "See how the pump fits together and moves.",
     overview:
-      "Connected workbook data, configurable charts, and tabular views that help teams shape information around the questions they need to answer.",
-    role: "My work focuses on the experience of selecting data sources, configuring views, and making dense information usable across web and mobile.",
-    disciplines: ["Data Workflows", "Interface Design", "Frontend Engineering"],
-    link: { label: "Explore the work" },
+      "An interactive 3D visualization of the Hengniu C120 oil pump. Separate the assembly with an exploded-view slider or switch to the rotor animation to see how the gears mesh.",
+    role: "I built a Three.js web component with selectable parts, rotor kinematics, and solid, see-through, and cross-section views.",
+    disciplines: ["Three.js", "Web Components", "3D Visualization"],
+    link: { label: "Open interactive 3D viewer", href: "/work/c120-viewer/demo/index.html?lang=en&explode=0.65" },
+  },
+  {
+    slug: "octavate",
+    index: "04",
+    title: "Octavate",
+    thesis: "Artist analytics and label insights for music teams.",
+    overview:
+      "A production AI music intelligence platform with real-time artist analytics and label insights across 3,000+ curated records.",
+    role: "Full-Stack Software Engineer Intern · May–September 2025",
+    highlights: [
+      "Built the platform with Vite, React, Node.js, and Flask microservices.",
+      "Implemented Google OAuth 2.0 and JWT session management, reducing onboarding friction by 80%.",
+      "Used GPT function calling in multi-turn conversations to automate 60% of manual query steps.",
+      "Persisted chat history across services and sessions, reducing retrieval latency by 40%.",
+      "Added interactive Spline models and GSAP animations, increasing average time on page by 35%.",
+    ],
+    disciplines: ["Full-Stack Engineering", "AI Workflows", "Data Visualization"],
+    metric: { value: "3,000+", label: "curated records" },
+    link: { label: "Explore product preview" },
   },
 ];
 

@@ -1,6 +1,7 @@
 import type { CSSProperties } from "react";
 import type { Metadata } from "next";
 import { Arrow } from "../components/Arrow";
+import { OctavatePreview } from "../components/OctavatePreview";
 import { ProjectEntry } from "../components/ProjectEntry";
 import { RevealObserver } from "../components/RevealObserver";
 import { SiteFooter } from "../components/SiteFooter";
@@ -123,7 +124,11 @@ export default function Engineer() {
             </header>
             <div className="projects">
               {projects.map((project) => (
-                <ProjectEntry key={project.slug} project={project} />
+                <ProjectEntry
+                  key={project.slug}
+                  project={project}
+                  preview={project.slug === "octavate" ? <OctavatePreview /> : undefined}
+                />
               ))}
             </div>
           </div>

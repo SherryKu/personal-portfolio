@@ -5,7 +5,9 @@ import path from "node:path";
  * Finds optional files in /public while the site is being built, so the page
  * only shows what actually exists:
  *
- *   public/work/<project-slug>/web.png      a desktop screenshot
+ *   public/work/<project-slug>/web.png      the first desktop screenshot
+ *   public/work/<project-slug>/web-2.png    the second desktop screenshot
+ *   public/work/<project-slug>/web-3.png    the third desktop screenshot
  *   public/work/<project-slug>/mobile.png   a phone screenshot
  *   public/<anything with "resume" or "cv">.pdf
  *
@@ -17,7 +19,7 @@ const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 const IMAGE_EXTENSIONS = ["png", "jpg", "jpeg", "webp"];
 
 export type Shot = { src: string; width?: number; height?: number };
-export type ProjectShots = { web: Shot | null; mobile: Shot | null };
+export type ProjectShots = { web: Shot[]; mobile: Shot | null };
 
 function readImageSize(file: string): { width: number; height: number } | null {
   try {
@@ -76,18 +78,47 @@ function readImageSize(file: string): { width: number; height: number } | null {
   return null;
 }
 
-function findShot(slug: string, kind: "web" | "mobile"): Shot | null {
-  for (const extension of IMAGE_EXTENSIONS) {
-    const file = path.join(PUBLIC_DIR, "work", slug, `${kind}.${extension}`);
-    if (!fs.existsSync(file)) continue;
-    const size = readImageSize(file);
-    return { src: `${BASE_PATH}/work/${slug}/${kind}.${extension}`, ...(size ?? {}) };
+function findShots(slug: string, kind: "web" | "mobile"): Shot[] {
+  const directory = path.join(PUBLIC_DIR, "work", slug);
+  if (!fs.existsSync(directory)) return [];
+
+  const pattern = kind === "web" ? /^web(?:-(\d+))?\.(png|jpe?g|webp)$/i : /^mobile\.(png|jpe?g|webp)$/i;
+  const files = new Map<number, { name: string; extensionRank: number; isBase: boolean }>();
+
+  for (const name of fs.readdirSync(directory)) {
+    const match = pattern.exec(name);
+    if (!match) continue;
+
+    const extensionRank = IMAGE_EXTENSIONS.indexOf(match[kind === "web" ? 2 : 1].toLowerCase());
+    if (extensionRank === -1) continue;
+
+    const number = kind === "web" && match[1] ? Number(match[1]) : 1;
+    if (!Number.isSafeInteger(number) || number < 1) continue;
+
+    const isBase = kind === "mobile" || !match[1];
+    const current = files.get(number);
+    if (
+      !current ||
+      (isBase && !current.isBase) ||
+      (isBase === current.isBase && extensionRank < current.extensionRank)
+    ) {
+      files.set(number, { name, extensionRank, isBase });
+    }
   }
-  return null;
+
+  return [...files.entries()]
+    .sort(([a], [b]) => a - b)
+    .map(([, { name }]) => {
+      const size = readImageSize(path.join(directory, name));
+      return { src: `${BASE_PATH}/work/${slug}/${encodeURIComponent(name)}`, ...(size ?? {}) };
+    });
 }
 
 export function findProjectShots(slug: string): ProjectShots {
-  return { web: findShot(slug, "web"), mobile: findShot(slug, "mobile") };
+  return {
+    web: findShots(slug, "web"),
+    mobile: findShots(slug, "mobile")[0] ?? null,
+  };
 }
 
 /** Returns a link to the résumé PDF in /public, or null when there isn't one yet. */

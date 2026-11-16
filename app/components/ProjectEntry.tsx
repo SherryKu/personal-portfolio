@@ -1,4 +1,3 @@
-import type { ReactNode } from "react";
 import type { Project } from "../content";
 import { findProjectShots, type Shot } from "../lib/assets";
 import { href } from "../lib/paths";
@@ -42,12 +41,12 @@ function Slot({ slug, kind }: { slug: string; kind: "web" | "mobile" }) {
   );
 }
 
-export function ProjectEntry({ project, preview }: { project: Project; preview?: ReactNode }) {
+export function ProjectEntry({ project }: { project: Project }) {
   const showScreenshots = project.showScreenshots !== false;
   const { web, mobile } = showScreenshots ? findProjectShots(project.slug) : { web: [], mobile: null };
   const hasShots = web.length > 0 || Boolean(mobile);
-  const showSlots = showScreenshots && !hasShots && !preview && process.env.NODE_ENV === "development";
-  const hasFigure = hasShots || Boolean(preview) || showSlots;
+  const showSlots = showScreenshots && !hasShots && process.env.NODE_ENV === "development";
+  const hasFigure = hasShots || showSlots;
 
   const layout = !hasFigure ? "text" : project.featured ? "featured" : "split";
   let arrangement: "pair" | "web" | "mobile" = "mobile";
@@ -76,7 +75,7 @@ export function ProjectEntry({ project, preview }: { project: Project; preview?:
         )}
       </div>
 
-      {preview ? <div className="figure">{preview}</div> : hasFigure && (
+      {hasFigure && (
         <figure className={`figure figure--${arrangement}`}>
           {web.length > 0 ? (
             <WebScreenshotReel shots={web} title={project.title} />
@@ -123,7 +122,7 @@ export function ProjectEntry({ project, preview }: { project: Project; preview?:
             ))}
           </ul>
         </div>
-        {project.link.href && (
+        {project.link?.href && (
           <a className="link project__link" href={project.link.href.startsWith("/") ? href(project.link.href) : project.link.href}>
             {project.link.label}
             <Arrow direction="right" />
